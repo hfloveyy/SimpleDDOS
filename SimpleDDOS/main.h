@@ -6,6 +6,7 @@
 #include <csignal>
 #include <winsock2.h> 
 #include <Iphlpapi.h>
+#include <thread>
 #include "pcap.h"
 
 #pragma comment(lib, "wpcap.lib")  

