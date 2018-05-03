@@ -1,17 +1,19 @@
 ﻿  main.cpp
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(10): warning C4101: “d”: 未引用的局部变量
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(175): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(186): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(187): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(201): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(202): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(274): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
-c:\users\yy\desktop\workspace\simpleddos\simpleddos\main.cpp(288): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.h(91): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: 参见“sprintf”的声明
-  SimpleDDOS.vcxproj -> C:\Users\yy\Desktop\workspace\SimpleDDOS\x64\Debug\SimpleDDOS.exe
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(10): warning C4101: “d”: 未引用的局部变量
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(201): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(212): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(213): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(227): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(228): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(300): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\um\winsock2.h(1830): note: 参见“inet_addr”的声明
+d:\hf_files\ai\workspace\simpleddos\simpleddos\main.cpp(314): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: 参见“sprintf”的声明
+  SimpleDDOS.vcxproj -> D:\hf_files\ai\workspace\SimpleDDOS\x64\Debug\SimpleDDOS.exe

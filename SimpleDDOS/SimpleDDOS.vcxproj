@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\cpp3th\WpdPack\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\cpp3th\WpdPack\Lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\hf_files\cpp3th\npcapsdk\Include;D:\cpp3th\WpdPack\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\hf_files\cpp3th\npcapsdk\Lib\x64;D:\cpp3th\WpdPack\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
